@@ -1,0 +1,128 @@
+import gym
+import random
+import numpy as np
+# env = gym.make('NextageOpen-v0')
+env = gym.make('NextageGrasp-v0')
+env.reset()
+env.env.debug = True
+model =  env.env
+ROPEN = -0.03
+LOPEN = 0.03
+CLOSE = 0
+
+def random_policy(steps=500):
+    for _ in range(steps):
+        action = env.action_space.sample()
+        joint_list = model.data.qpos.copy().flatten()[:9]
+        action[0] = -.05 if joint_list[0] > 0.5 else action[0]
+        action[0] = .05 if joint_list[0] < -0.5 else action[0]
+        joint_list += action / 50.0
+        env.step(joint_list)
+        env.render()
+        # print env.env.state_vector()
+
+def move_hand(steps=500):
+    counter = 0
+    for _ in range(steps):
+        env.render()
+        action = env.env.init_qpos
+        # action[2] = -1
+
+        if counter >= 10: # skip 10 episodes
+            var = random.randint(0,1) == 1
+            action[7] = ROPEN if var else CLOSE
+            action[8] = LOPEN if var else CLOSE
+            # print "action:", var
+            counter = 0
+        
+        # print "state", env.env.data.qpos
+        counter+=1
+        env.step(action) # take a random action
+        vi = env.env._get_viewer()
+    # print "cam.", vi.cam.azimuth, vi.cam.elevation
+
+
+# random_policy(500)
+# move_hand(1500)
+
+# data = env.env.get_resize_image(300, 300)
+# from scipy.misc import toimage
+# toimage(data).show()
+# env.env.data.nsite.ravel()
+
+# print env.env.body_names
+# print env.env.joint_names
+
+# print env.env.get_body_com('RARM_JOINT5_Link')
+# print env.env.get_body_comvel('RARM_JOINT5_Link')
+# print env.env.joint_adr('RARM_JOINT5')[0]
+# print env.env.jnt_range
+
+def reset():
+    env.reset()
+    env.render()
+
+def move_joint(joint, distance):
+        
+    action = env.env.data.qpos.flatten()[:8]
+    if joint == 7:
+        action[7] = distance
+    else:
+        action[joint] += distance
+    env.step(action)
+    env.render()
+
+def render(steps):
+    for _ in range(steps):
+        # move_joint(0,0)
+        env.env.sim.step()
+        env.render()
+
+def body_pos(body, pos):
+    ### Example modify body pos
+    b = model.body_pos.copy()
+    b[body] = pos
+    model.body_pos = b
+    model.kinematics()
+    model.step()
+    render(1)
+
+### Example frame skip
+env.env.frame_skip = 10
+# print "init pos", env.env.data.qpos.flatten()[:9]
+# print "init eefp", env.env.data.site_xpos.flatten()
+
+# env.render()
+# # action = [0, -0.0104, 0, -1.745, 0.265, 0.164, 0.0558, 0, 0]
+# # action = [ 0., 0.063, -0.61,  -0.685,  1.83,  -1.489, -2.594,  0.03,  -0.03]
+# action = [5, 0.06334643698466469, -0.6105326945985968, -0.6849219029920323, 1.8305557027770751, -1.4894137507168421, -2.593769688808892, LOPEN, ROPEN]
+# env.step(action)
+# env.render()
+
+# print "target pos", env.env.data.qpos.flatten()[:9]
+# print "target eefp", env.env.data.site_xpos.flatten()
+
+# render(100)
+
+### Example multi env
+# env2 = gym.make('NextageGrasp-v0')
+# env2.reset()
+# env2.step(action)
+# env2.render()
+
+# reset()
+
+# action = [ 0.,     0.194, -0.815, -0.561,  0.265, -0.14,   0.056,  0.,    -0., 0 ,0]
+# env.step(action)
+# env.render()
+
+### Example of changing programatically the qpos qvel
+# q = env.env.data.qpos.copy()
+# q[15] = .5
+
+# env.env.data.qpos = q
+# env.env.kinematics()
+# env.env.step()
+
+# random_policy(10)
+move_joint(2, -.5)

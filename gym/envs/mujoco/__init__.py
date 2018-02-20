@@ -14,3 +14,5 @@ from gym.envs.mujoco.humanoidstandup import HumanoidStandupEnv
 from gym.envs.mujoco.pusher import PusherEnv
 from gym.envs.mujoco.thrower import ThrowerEnv
 from gym.envs.mujoco.striker import StrikerEnv
+from gym.envs.mujoco.nextage_open import NextageEnv
+from gym.envs.mujoco.nxo_grasp import NextageGraspEnv

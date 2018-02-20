@@ -16,7 +16,7 @@ class MujocoEnv(gym.Env):
     """Superclass for all MuJoCo environments.
     """
 
-    def __init__(self, model_path, frame_skip):
+    def __init__(self, model_path, frame_skip=1):
         if model_path.startswith("/"):
             fullpath = model_path
         else:
@@ -99,6 +99,13 @@ class MujocoEnv(gym.Env):
         for _ in range(n_frames):
             self.sim.step()
 
+    def get_image(self):
+        return self.render(mode='rgb_array')
+
+    def get_resize_image(self, width, height):
+        from scipy.misc import imresize
+        return imresize(self.get_image(), (height, width))
+
     def render(self, mode='human'):
         if mode == 'rgb_array':
             self._get_viewer().render()
@@ -124,5 +131,6 @@ class MujocoEnv(gym.Env):
     def state_vector(self):
         return np.concatenate([
             self.sim.data.qpos.flat,
-            self.sim.data.qvel.flat
+            self.sim.data.qvel.flat,
+            self.model.data.site_xpos.flatten()
         ])
