@@ -1,14 +1,28 @@
 import gym
 import random
 import numpy as np
+
+# Define model
 # env = gym.make('NextageOpen-v0')
 env = gym.make('NextageGrasp-v0')
+
+# Always reset first of all
 env.reset()
+env.render()
+
+# Variables
+model =  env.env.model
+data = env.env.data
+viewer = env.env.viewer
+sim = env.env.sim
+
+# Testing params
 env.env.debug = True
-model =  env.env
+env.env.hand = True
 ROPEN = -0.03
 LOPEN = 0.03
 CLOSE = 0
+env.env.frame_skip = 5
 
 def random_policy(steps=500):
     for _ in range(steps):
@@ -19,58 +33,24 @@ def random_policy(steps=500):
         joint_list += action / 50.0
         env.step(joint_list)
         env.render()
-        # print env.env.state_vector()
 
-def move_hand(steps=500):
-    counter = 0
-    for _ in range(steps):
-        env.render()
-        action = env.env.init_qpos
-        # action[2] = -1
-
-        if counter >= 10: # skip 10 episodes
-            var = random.randint(0,1) == 1
-            action[7] = ROPEN if var else CLOSE
-            action[8] = LOPEN if var else CLOSE
-            # print "action:", var
-            counter = 0
-        
-        # print "state", env.env.data.qpos
-        counter+=1
-        env.step(action) # take a random action
-        vi = env.env._get_viewer()
-    # print "cam.", vi.cam.azimuth, vi.cam.elevation
-
-
-# random_policy(500)
-# move_hand(1500)
-
-# data = env.env.get_resize_image(300, 300)
-# from scipy.misc import toimage
-# toimage(data).show()
-# env.env.data.nsite.ravel()
-
-# print env.env.body_names
-# print env.env.joint_names
-
-# print env.env.get_body_com('RARM_JOINT5_Link')
-# print env.env.get_body_comvel('RARM_JOINT5_Link')
-# print env.env.joint_adr('RARM_JOINT5')[0]
-# print env.env.jnt_range
+def display_image():
+    data = env.env.get_resize_image(300, 300)
+    from scipy.misc import toimage
+    toimage(data).show()
 
 def reset():
     env.reset()
     env.render()
 
-def move_joint(joint, distance):
-        
-    action = env.env.data.qpos.flatten()[:8]
+def move_joint(joint, distance):      
+    action = env.env.get_qpos()
     if joint == 7:
         action[7] = distance
     else:
         action[joint] += distance
     env.step(action)
-    env.render()
+    render(5)
 
 def render(steps):
     for _ in range(steps):
@@ -87,10 +67,6 @@ def body_pos(body, pos):
     model.step()
     render(1)
 
-### Example frame skip
-env.env.frame_skip = 10
-# print "init pos", env.env.data.qpos.flatten()[:9]
-# print "init eefp", env.env.data.site_xpos.flatten()
 
 # env.render()
 # # action = [0, -0.0104, 0, -1.745, 0.265, 0.164, 0.0558, 0, 0]
@@ -103,12 +79,6 @@ env.env.frame_skip = 10
 # print "target eefp", env.env.data.site_xpos.flatten()
 
 # render(100)
-
-### Example multi env
-# env2 = gym.make('NextageGrasp-v0')
-# env2.reset()
-# env2.step(action)
-# env2.render()
 
 # reset()
 
@@ -126,3 +96,6 @@ env.env.frame_skip = 10
 
 # random_policy(10)
 move_joint(2, -.5)
+render(100)
+# for c in env.env.data.contact:
+#     print (c.geom1, c.geom2)

@@ -4,7 +4,7 @@
 	Author		: Beltran Cristian
 	Institute   : System Innovation, Osaka University.
 	Contacts 	: cristian_beltran@ieee.org	
-	Last edits 	: 18.02.2018
+	Last edits 	: 21.02.2018
 
 ====================================================== -->
 <mujoco model="nextage_hands">
@@ -14,7 +14,7 @@
               meshdir="meshes/"/>
 
     <option timestep=".02"
-            gravity="0 0 -.19"
+            gravity="0 0 -.01"
             iterations="500"
             solver="CG">
     </option>
@@ -24,7 +24,7 @@
         <geom  friction=".5 .1 .1"  condim="3" contype="0" conaffinity="0" />
 
         <default class="nxo">
-            <joint armature="0.01" damping="10" frictionloss="0" limited="true" />
+            <joint armature="0.01" damping="5" frictionloss=".5" limited="true" />
             <geom material="MatPlastic" />
         </default>                
    </default>   
