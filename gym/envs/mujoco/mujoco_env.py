@@ -129,8 +129,8 @@ class MujocoEnv(gym.Env):
         return self.data.get_body_xpos(body_name)
 
     def state_vector(self):
-        return np.concatenate([
-            self.sim.data.qpos.flat,
-            self.sim.data.qvel.flat,
-            self.model.data.site_xpos.flatten()
-        ])
+        return {
+            'qpos': self.data.qpos,
+            'qvel': self.data.qvel,
+            'site_xpos': self.data.site_xpos.flatten(),
+        }
