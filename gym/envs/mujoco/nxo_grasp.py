@@ -110,9 +110,11 @@ class NextageGraspEnv(mujoco_env.MujocoEnv, utils.EzPickle):
 
 
     def _compare_arrays(self, a, b):
-        """ Compare that the arrays are almost the same """
-        c = np.absolute(np.subtract(a, b)).sum()
-        return c <= 0.1
+        a = np.round(a, 3)
+        b = np.round(b, 3)
+        c = abs(a.sum() - b.sum())
+        return c <= 0.3
+        # return np.array_equal(a, b)
 
     def _limit_actions(self, a):
         """ Check that no action exceeds the given limits """
