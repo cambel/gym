@@ -292,6 +292,12 @@ register(
 )
 
 register(
+    id='Baxter-v0',
+    entry_point='gym.envs.mujoco:BaxterEnv',
+    max_episode_steps=1000,
+)
+
+register(
     id='NextageOpen-v0',
     entry_point='gym.envs.mujoco:NextageEnv',
     max_episode_steps=1000,
