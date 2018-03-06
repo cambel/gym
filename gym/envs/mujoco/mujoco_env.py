@@ -132,5 +132,9 @@ class MujocoEnv(gym.Env):
         return {
             'qpos': self.data.qpos,
             'qvel': self.data.qvel,
-            'site_xpos': self.data.site_xpos.flatten(),
+            'site_xpos': self.data.site_xpos,
+            'site_jacp': self.data.site_jacp,
+            'site_xmat': self.data.site_xmat,
+            'geom_pos': self.data.geom_xpos,
+            'contacts': self.data.contact,
         }
