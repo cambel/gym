@@ -22,7 +22,8 @@ env.env.hand = True
 ROPEN = -0.03
 LOPEN = 0.03
 CLOSE = 0
-env.env.frame_skip = 5
+env.env.frame_skip = 15
+env.env.max_wait = 5000
 
 def random_policy(steps=500):
     for _ in range(steps):
@@ -41,7 +42,7 @@ def display_image():
 
 def reset():
     env.reset()
-    env.render()
+    render(10)
 
 def move_joint(joint, distance):      
     action = env.env.get_qpos()

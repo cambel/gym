@@ -11,7 +11,7 @@
     <compiler inertiafromgeom="true"
               angle="radian"
               coordinate="local"
-              meshdir="meshes/"/>
+              meshdir="nextage/"/>
 
     <option timestep=".02"
             gravity="0 0 -.01"
@@ -147,8 +147,8 @@
                                         <geom pos="-0.065 0 -0.09" type="mesh" mesh="RARM_JOINT5_Link_mesh" rgba=".8 .8 .8 1" contype="1" conaffinity="1"/>
 
                                         <site name="eefp1" pos="0.0 0.0 0.0" size="0.001" rgba=".12 1 .2 1" />
-                                        <site name="eefp2" pos="-0.12 0.0 0.0" size="0.001" rgba=".12 1 .2 1" />
-                                        <site name="eefp3" pos="0.0 0 -0.08" size="0.001" rgba=".12 1 .2 1" />
+                                        <site name="eefp2" pos="-0.11 0.0 0.0" size="0.001" rgba=".12 1 .2 1" />
+                                        <site name="eefp3" pos="0.0 0 -0.09" size="0.001" rgba=".12 1 .2 1" />
                                         
                                         <body name="RHAND_L_Link" pos="-0.062 0 0">
                                             <inertial pos="0 0 0" mass="0.01" diaginertia="0.0001 0.0001 0.0001" />
@@ -170,26 +170,27 @@
         </body>
 
         <!-- Objects -->
-        <!-- <body name="can" pos="0 0 0">
-            <geom pos="0.45 0 0.01" name="can" type="mesh" mesh="CAN_mesh" rgba="1 0.5 0.5 1"   contype="1" conaffinity="1"  />
+        <body name="can" pos="0.45 0 -0.005">
+            <!-- <geom pos="0.45 0 0.01" name="can" type="mesh" mesh="CAN_mesh" rgba="1 0.5 0.5 .5"   contype="1" conaffinity="1"  /> -->
+            <geom pos="0 0 0" name="can" type="cylinder" size=".02 .04" rgba="1 0.5 0.5 1"   contype="1" conaffinity="1"  />
             <joint armature="0" axis="1 0 0" damping="0" limited="false" name="can_x" pos="0 0 0" stiffness="0" type="slide"/>
             <joint armature="0" axis="0 1 0" damping="0" limited="false" name="can_y" pos="0 0 0" stiffness="0" type="slide"/>
             <joint armature="0" axis="0 0 1" damping="0" limited="false" name="can_z" pos="0 0 0" stiffness="0" type="slide"/>
         </body>
 
-        <body name="cube" pos="0 0 0">
-            <geom pos="0.45 0.1 0.0" name="cube" type="mesh" mesh="CUBE_mesh" rgba="0.4 .8 0.4 1"  contype="1" conaffinity="1" />
+        <!-- <body name="cube" pos="0.45 0.1 -0.01">
+            <geom pos="0 0 0" name="cube" type="mesh" mesh="CUBE_mesh" rgba="0.4 .8 0.4 1"  contype="1" conaffinity="1" />
             <joint armature="0" axis="1 0 0" damping="0" limited="false" name="cube_x" pos="0 0 0" stiffness="0" type="slide"/>
             <joint armature="0" axis="0 1 0" damping="0" limited="false" name="cube_y" pos="0 0 0" stiffness="0" type="slide"/>
             <joint armature="0" axis="0 0 1" damping="0" limited="false" name="cube_z" pos="0 0 0" stiffness="0" type="slide"/>
         </body> -->
 
-        <body name="l" pos="0 0 0">
-            <geom pos="0.45 0.1 -0.02" name="l" type="mesh" mesh="L_mesh" rgba="0.4 .4 0.8 1"  contype="1" conaffinity="1" />
+        <!-- <body name="l" pos="0.45 0.1 -0.02">
+            <geom pos="0 0 0" name="l" type="mesh" mesh="L_mesh" rgba="0.4 .4 0.8 1"  contype="1" conaffinity="1" />
             <joint axis="1 0 0" limited="false" name="l_x" pos="0 0 0" type="slide"/>
             <joint axis="0 1 0" limited="false" name="l_y" pos="0 0 0" type="slide"/>
             <joint axis="0 0 1" limited="false" name="l_z" pos="0 0 0" type="slide"/>
-        </body>
+        </body> -->
     </worldbody>
 
     <actuator>

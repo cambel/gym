@@ -14,7 +14,7 @@ class NextageGraspEnv(mujoco_env.MujocoEnv, utils.EzPickle):
         mujoco_env.MujocoEnv.__init__(self, 'nxo_hand.xml')
         utils.EzPickle.__init__(self)
         
-        self.init_qpos = np.concatenate(([0, -0.0204, -0.25, -1.745, 0.265, 0.164, 0.0558, 0.03, -0.03], self.init_qpos[self.model.nu:]))
+        self.init_qpos = np.concatenate(([0, -0.0304, -0.25, -1.745, 0.265, 0.164, 0.0558, 0.03, -0.03], self.init_qpos[self.model.nu:]))
 
     def get_qpos(self):
         if self.hand:
@@ -22,6 +22,11 @@ class NextageGraspEnv(mujoco_env.MujocoEnv, utils.EzPickle):
             return np.concatenate((self.data.qpos[:self.model.nu-2], hand))
         else:
             return self.data.qpos[:self.model.nu]
+
+    def set_qpos(self, new_qpos):
+        if self.hand:
+            new_qpos = self._hand2joints(new_qpos)
+        self.data.qpos[:] = np.concatenate((new_qpos, self.data.qpos[self.model.nu:]))
 
 
     def _get_obs(self):
@@ -107,7 +112,7 @@ class NextageGraspEnv(mujoco_env.MujocoEnv, utils.EzPickle):
     def _compare_arrays(self, a, b):
         """ Compare that the arrays are almost the same """
         c = np.absolute(np.subtract(a, b)).sum()
-        return c <= 0.5
+        return c <= 0.1
 
     def _limit_actions(self, a):
         """ Check that no action exceeds the given limits """

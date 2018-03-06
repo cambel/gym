@@ -11,7 +11,7 @@
     <compiler inertiafromgeom="true"
               angle="radian"
               coordinate="local"
-              meshdir="meshes/"/>
+              meshdir="nextage/"/>
 
     <option timestep="1" 
             gravity="0 0 0" 
